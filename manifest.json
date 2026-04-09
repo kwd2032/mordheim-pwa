@@ -1,0 +1,27 @@
+{
+  "name": "Guía Mordheim - Ciudad de los Condenados",
+  "short_name": "Mordheim",
+  "description": "Guía de reglas rápida para Mordheim con tablas y estados",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f4f5",
+  "theme_color": "#c0392b",
+  "orientation": "portrait",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "utilities"],
+  "lang": "es"
+}

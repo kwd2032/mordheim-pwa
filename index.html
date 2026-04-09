@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mordheim: Guía de Reglas</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c0392b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="description" content="Guía de reglas rápida para Mordheim">
+    
+    <style>
+        /* --- VARIABLES DE COLOR (MODO CLARO POR DEFECTO) --- */
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c0392b; 
+            --accent-hover: #a93226;
+            --bg: #f4f4f5;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e5e7eb;
+            --table-stripe: #f9fafb;
+            --table-hover: #f3f4f6;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --btn-bg: #e5e7eb;
+            --btn-text: #333;
+        }
+
+        /* --- VARIABLES MODO OSCURO --- */
+        body.dark-mode {
+            --primary: #ffffff;
+            --accent: #ef4444;
+            --accent-hover: #dc2626;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e5e5e5;
+            --text-light: #a3a3a3;
+            --border: #333333;
+            --table-stripe: #262626;
+            --table-hover: #333333;
+            --btn-bg: #333;
+            --btn-text: #fff;
+        }
+
+        /* --- ESTILOS GENERALES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            padding-bottom: 80px; /* Espacio para el nav inferior en móvil */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER & CONTROLES --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+        }
+
+        .controls {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* --- SECCIONES --- */
+        section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            scroll-margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p, li { color: var(--text); }
+        strong { color: var(--primary); font-weight: 700; }
+
+        /* --- GRIDS --- */
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .phase-card {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-top: 4px solid var(--accent);
+        }
+
+        .mechanics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .mechanic-block {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        /* --- ESTADOS --- */
+        .status-box {
+            background-color: rgba(192, 57, 43, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        
+        .status-box h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* --- TABLA --- */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--bg);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) { background-color: var(--table-stripe); }
+        tr:hover { background-color: var(--table-hover); }
+
+        .rules-logic {
+            margin-top: 2rem;
+            background: var(--primary);
+            color: var(--bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+        }
+
+        .rules-logic h3 { color: var(--bg); border-color: rgba(255,255,255,0.2); }
+        .rules-logic ul li { color: var(--bg); opacity: 0.9; }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* --- NAVEGACIÓN INFERIOR (MÓVIL) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* --- MEDIA PRINT --- */
+        @media print {
+            body { background: white; color: black; padding: 0; padding-bottom: 0; }
+            .controls, .bottom-nav { display: none; }
+            section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; margin-bottom: 1rem; }
+            h1, h2, h3, h4, th { color: black !important; }
+            .status-box { border: 1px solid #ccc; background: none; }
+            .rules-logic { background: #f0f0f0; color: black; border: 1px solid #ccc; }
+            .rules-logic ul li { color: black; }
+            table { border: 1px solid black; }
+            th, td { border: 1px solid black; color: black; }
+            tr:nth-child(even) { background-color: #fff; }
+            .phase-card, .mechanic-block { border: 1px solid #ccc; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            section { padding: 1.5rem; }
+            .controls { position: relative; justify-content: center; margin-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="controls">
+                <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+                <button class="btn" onclick="toggleDarkMode()" id="themeBtn">🌙 Modo Oscuro</button>
+            </div>
+            <div class="subtitle">Guía de Referencia Rápida</div>
+            <h1>Mordheim</h1>
+            <p style="color: var(--text-light);">La Ciudad de los Condenados</p>
+        </header>
+
+        <!-- SECCIÓN 1: ESTRUCTURA DEL TURNO -->
+        <section id="turno">
+            <h2>1. Estructura del Turno</h2>
+            <div class="phases-grid">
+                <div class="phase-card">
+                    <h4>1. Inicio</h4>
+                    <ul>
+                        <li>Recuperación</li>
+                        <li>Chequeos de Ruta</li>
+                        <li>Efectos psicológicos</li>
+                    </ul>
+                </div>
+                <div class="phase-card">
+                    <h4>2. Movimiento</h4>
+                    <ul>
+                        <li>Movimiento normal</li>
+                        <li>Correr (M x 2)</li>
+                        <li>Cargar</li>
+                    </ul>
+                </div>
+                <div class="phase-card">
+                    <h4>3. Disparo</h4>
+                    <ul>
+                        <li>Armas de proyectiles</li>
+                        <li>Línea de visión</li>
+                        <li>Sin correr/cargar</li>
+                    </ul>
+                </div>
+                <div class="phase-card">
+                    <h4>4. Combate</h4>
+                    <ul>
+                        <li>Contacto peana</li>
+                        <li>Orden por Iniciativa</li>
+                        <li>Paradas y críticos</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: MECÁNICAS -->
+        <section id="mecanicas">
+            <h2>2. Movimiento y Disparo</h2>
+            <div class="mechanics-grid">
+                <div class="mechanic-block">
+                    <h3>Movimiento</h3>
+                    <ul>
+                        <li><strong>Normal:</strong> Hasta atributo M</li>
+                        <li><strong>Correr:</strong> M x 2, no dispara</li>
+                        <li><strong>Cargar:</strong> M x 2, contacto peana</li>
+                        <li><strong>Ocultarse:</strong> Tras cobertura</li>
+                    </ul>
+                </div>
+                <div class="mechanic-block">
+                    <h3>Disparo</h3>
+                    <ul>
+                        <li><strong>Impactar:</strong> 1D6 vs HP</li>
+                        <li><strong>Modificadores:</strong> -1 distancia, cobertura</li>
+                        <li><strong>Herir:</strong> Tabla F vs R</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: ESTADOS -->
+        <section id="estados">
+            <h2>3. Estados de Salud</h2>
+            <div class="status-box">
+                <h4>1-2: Derribado <span class="status-badge">Leve</span></h4>
+                <p>Arrastrarse 5cm. Se recupera siguiente turno.</p>
+            </div>
+            <div class="status-box">
+                <h4>3-4: Aturdido <span class="status-badge">Crítico</span></h4>
+                <p>Indefenso 2 turnos. Pasa a Derribado luego.</p>
+            </div>
+            <div class="status-box">
+                <h4>5-6: Fuera de Combate <span class="status-badge">Grave</span></h4>
+                <p>Retira del tablero. Posibles secuelas.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: TABLA -->
+        <section id="tabla">
+            <h2>4. Tabla de Herir</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>F/R</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>1</strong></td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                        <tr><td><strong>2</strong></td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                        <tr><td><strong>3</strong></td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                        <tr><td><strong>4</strong></td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td><td>—</td><td>—</td></tr>
+                        <tr><td><strong>5</strong></td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td><td>—</td></tr>
+                        <tr><td><strong>6</strong></td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td><td>—</td></tr>
+                        <tr><td><strong>7</strong></td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td><td>6+</td></tr>
+                        <tr><td><strong>8</strong></td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td><td>6+</td></tr>
+                        <tr><td><strong>9</strong></td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td><td>5+</td></tr>
+                        <tr><td><strong>10</strong></td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>2+</td><td>3+</td><td>4+</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="rules-logic">
+                <h3>Reglas Rápidas</h3>
+                <ul>
+                    <li><strong>F=R:</strong> 4+</li>
+                    <li><strong>F+1:</strong> 3+</li>
+                    <li><strong>Fx2:</strong> 2+</li>
+                    <li><strong>R+1:</strong> 5+</li>
+                    <li><strong>Rx2:</strong> 6+</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p>¡Que Sigmar guíe tus dados! 🎲</p>
+        </footer>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR PARA MÓVIL -->
+    <nav class="bottom-nav">
+        <a href="#turno" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span>Turno</span>
+        </a>
+        <a href="#mecanicas" class="nav-item">
+            <span class="nav-icon">⚔️</span>
+            <span>Reglas</span>
+        </a>
+        <a href="#estados" class="nav-item">
+            <span class="nav-icon">💀</span>
+            <span>Estados</span>
+        </a>
+        <a href="#tabla" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Tabla</span>
+        </a>
+    </nav>
+
+    <!-- SERVICE WORKER REGISTRATION -->
+    <script>
+        // Registro del Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW registrado:', reg.scope))
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
+
+        // Modo Oscuro
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            const isDark = body.classList.contains('dark-mode');
+            localStorage.setItem('mordheim-theme', isDark ? 'dark' : 'light');
+            
+            const btn = document.getElementById('themeBtn');
+            btn.innerHTML = isDark ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+        }
+
+        // Cargar preferencia
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('mordheim-theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️ Modo Claro';
+            }
+        });
+
+        // Navegación activa
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
